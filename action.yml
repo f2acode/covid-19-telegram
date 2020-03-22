@@ -5,6 +5,9 @@ inputs:
   country:
     description: 'the specific country you want to know'
     default: 'brazil'
+  date:
+    description: 'the date of update'
+    default: '00-00-0000'
 runs:
   using: 'node12'
   main: 'dist/index.js'

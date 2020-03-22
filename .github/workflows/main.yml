@@ -17,11 +17,9 @@ jobs:
     - uses: ./
       with: 
         country: 'Brazil'
-  telegram:
-    runs-on: ubuntu-latest
-    steps:
+    - name: send default telegram message
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        args: Country ${{ inputs.country }} \nDate ${{ inputs.date }} \nConfirmed ${{ inputs.confirmed }} \nDeaths ${{ inputs.deaths }} \nRecoveries ${{ inputs.recoveries }}
+        args: Country ${{ inputs.country }} \nDate ${{ inputs.date }}
