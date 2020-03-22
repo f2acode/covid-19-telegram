@@ -1,5 +1,8 @@
 name: A workflow for covid-19
-on: push
+on: 
+  push
+  schedule:
+    - cron:  '0 8 * * *'
 
 jobs:
   build:
