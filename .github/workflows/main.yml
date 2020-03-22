@@ -13,14 +13,14 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-    - name: get_data
     - uses: actions/checkout@v1
     - uses: ./
       with: 
         country: 'Brazil'
-    - name: telegram
+      id: data
+    - name: send default telegram message
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        args: Country ${{ steps.get_data.outputs.country }}
+        args: The event triggered first step.
