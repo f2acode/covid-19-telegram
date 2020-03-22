@@ -79,25 +79,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
-const node_fetch_1 = __importDefault(__webpack_require__(454));
+const data_1 = __webpack_require__(875);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            core.debug('OLÁAAAAAAA');
-            const res = yield node_fetch_1.default('https://pomber.github.io/covid19/timeseries.json', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const text = yield res.text();
-            core.debug(text);
-            core.setOutput('numberOfCases', '1');
+            core.debug('STARTING');
+            const country = core.getInput('country');
+            const snap = yield data_1.getCountrySnap(country);
+            core.debug(JSON.stringify(snap));
+            core.setOutput('country', country);
+            core.setOutput('date', snap.date);
+            core.setOutput('confirmed', snap.confirmed.toString());
+            core.setOutput('deaths', snap.deaths.toString());
+            core.setOutput('recoveries', snap.recovered.toString());
         }
         catch (error) {
             core.setFailed(error.message);
@@ -2099,6 +2095,53 @@ module.exports = require("zlib");
 /***/ (function(module) {
 
 module.exports = require("url");
+
+/***/ }),
+
+/***/ 875:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const core = __importStar(__webpack_require__(470));
+const node_fetch_1 = __importDefault(__webpack_require__(454));
+function getCountrySnap(country) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const res = yield node_fetch_1.default('https://pomber.github.io/covid19/timeseries.json', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const covid = yield res.json();
+        const countryCovid = covid[country];
+        const countryCovidSnap = countryCovid[countryCovid.length - 1];
+        core.debug(JSON.stringify(countryCovidSnap));
+        return countryCovidSnap;
+    });
+}
+exports.getCountrySnap = getCountrySnap;
+
 
 /***/ })
 

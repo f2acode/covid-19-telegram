@@ -1,25 +1,21 @@
 import * as core from '@actions/core'
-import fetch from 'node-fetch'
+import {getCountrySnap} from '../src/data'
 
 async function run(): Promise<void> {
   try {
-    core.debug('OLÁAAAAAAA')
+    core.debug('STARTING')
 
-    const res = await fetch(
-      'https://pomber.github.io/covid19/timeseries.json',
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    )
+    const country: string = core.getInput('country')
 
-    const text = await res.text()
+    const snap = await getCountrySnap(country)
 
-    core.debug(text)
+    core.debug(JSON.stringify(snap))
 
-    core.setOutput('numberOfCases', '1')
+    core.setOutput('country', country)
+    core.setOutput('date', snap.date)
+    core.setOutput('confirmed', snap.confirmed.toString())
+    core.setOutput('deaths', snap.deaths.toString())
+    core.setOutput('recoveries', snap.recovered.toString())
   } catch (error) {
     core.setFailed(error.message)
   }
