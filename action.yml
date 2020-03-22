@@ -1,0 +1,10 @@
+name: 'covid-19-telegram'
+description: 'Get covid-19 global status'
+author: 'Felipe Augusto de Almeida'
+inputs:
+  country:
+    description: 'the specific country you want to know'
+    default: 'brazil'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
