@@ -1,0 +1,12 @@
+name: A workflow for covid-19
+on: push
+
+jobs:
+  build:
+    name: Get covid info
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - run: |
+        npm install
+        npm run all
