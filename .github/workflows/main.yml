@@ -23,4 +23,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        args: The event triggered first step.
+        args: Country ${{ steps.data.outputs.country }}
