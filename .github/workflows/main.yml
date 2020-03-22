@@ -23,4 +23,4 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        args: Country ${{ steps.data.outputs.country }}
+        args: Country ${{ steps.data.outputs.country }} \nDate ${{ steps.data.outputs.date }} \nConfirmed ${{ steps.data.outputs.confirmed }} \nDeaths ${{ steps.data.outputs.deaths }} \nRecovered ${{ steps.data.outputs.recovered }}
