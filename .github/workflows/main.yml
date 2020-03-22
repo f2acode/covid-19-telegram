@@ -1,6 +1,8 @@
 name: A workflow for covid-19
 on: 
-  push
+  push:
+    branches:   
+      - master
   schedule:
     - cron:  '0 8 * * *'
 
