@@ -87,13 +87,13 @@ function run() {
         try {
             core.debug('STARTING');
             const country = core.getInput('country');
-            const snap = yield data_1.getCountrySnap(country);
+            const snap = yield data_1.getLastCountrySnap(country);
             core.debug(JSON.stringify(snap));
             core.setOutput('country', country);
             core.setOutput('date', snap.date);
-            core.setOutput('confirmed', snap.confirmed.toString());
-            core.setOutput('deaths', snap.deaths.toString());
-            core.setOutput('recoveries', snap.recovered.toString());
+            core.setOutput('confirmed', String(snap.confirmed));
+            core.setOutput('deaths', String(snap.deaths));
+            core.setOutput('recoveries', String(snap.recovered));
         }
         catch (error) {
             core.setFailed(error.message);
@@ -2123,9 +2123,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const core = __importStar(__webpack_require__(470));
 const node_fetch_1 = __importDefault(__webpack_require__(454));
-function getCountrySnap(country) {
+function getCovidData() {
     return __awaiter(this, void 0, void 0, function* () {
         const res = yield node_fetch_1.default('https://pomber.github.io/covid19/timeseries.json', {
             method: 'GET',
@@ -2133,14 +2134,20 @@ function getCountrySnap(country) {
                 'Content-Type': 'application/json'
             }
         });
-        const covid = yield res.json();
+        return yield res.json();
+    });
+}
+exports.getCovidData = getCovidData;
+function getLastCountrySnap(country) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const covid = yield getCovidData();
         const countryCovid = covid[country];
         const countryCovidSnap = countryCovid[countryCovid.length - 1];
         core.debug(JSON.stringify(countryCovidSnap));
         return countryCovidSnap;
     });
 }
-exports.getCountrySnap = getCountrySnap;
+exports.getLastCountrySnap = getLastCountrySnap;
 
 
 /***/ })
