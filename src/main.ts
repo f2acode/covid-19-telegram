@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import {getCountrySnap} from '../src/data'
+import {getLastCountrySnap} from '../src/data'
 
 async function run(): Promise<void> {
   try {
@@ -7,7 +7,7 @@ async function run(): Promise<void> {
 
     const country: string = core.getInput('country')
 
-    const snap = await getCountrySnap(country)
+    const snap = await getLastCountrySnap(country)
 
     core.debug(JSON.stringify(snap))
 
@@ -15,7 +15,7 @@ async function run(): Promise<void> {
     core.setOutput('date', snap.date)
     core.setOutput('confirmed', snap.confirmed.toString())
     core.setOutput('deaths', snap.deaths.toString())
-    core.setOutput('recoveries', snap.recovered.toString())
+    core.setOutput('recoveries', snap.recovered?.toString())
   } catch (error) {
     core.setFailed(error.message)
   }
