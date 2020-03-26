@@ -13,9 +13,9 @@ async function run(): Promise<void> {
 
     core.setOutput('country', country)
     core.setOutput('date', snap.date)
-    core.setOutput('confirmed', snap.confirmed.toString())
-    core.setOutput('deaths', snap.deaths.toString())
-    core.setOutput('recoveries', snap.recovered?.toString())
+    core.setOutput('confirmed', String(snap.confirmed))
+    core.setOutput('deaths', String(snap.deaths))
+    core.setOutput('recoveries', String(snap.recovered))
   } catch (error) {
     core.setFailed(error.message)
   }
